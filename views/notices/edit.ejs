@@ -1,0 +1,32 @@
+<% layout('/layouts/boilerplate') %>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1>Edit Notice</h1>
+            <form action="/notices/<%= notice._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="notice[title]" value="<%=notice.title %>" required>
+                    <div class="valid-feedback">Alright</div>
+                    <div class="invalid-feedback">Something's Missing</div>
+                </div>
+                <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <textarea type="text" class="form-control" id="Description" name="notice[description]" value="<%=notice.description %>" required> </textarea>
+                    <div class="valid-feedback">Alright</div>
+                    <div class="invalid-feedback">Something's Missing</div>
+                </div>
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="author" name="notice[author]" value="<%=notice.author %>" required>
+                    <div class="valid-feedback">Alright</div>
+                    <div class="invalid-feedback">Something's Missing</div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info">Edit Notice</button>
+                </div>
+            </form>
+            <div>
+                <a class="link-dark" href="/notices/<%= notice._id %>">Back</a>
+            </div>
+        </div>
+    </div>

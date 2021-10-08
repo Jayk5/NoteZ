@@ -1,0 +1,32 @@
+<% layout('/layouts/boilerplate') %>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1>New Notice</h1>
+            <form action="/notices" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="notice[title]" required>
+                    <div class="valid-feedback">Alright</div>
+                    <div class="invalid-feedback">Something's Missing</div>
+                </div>
+                <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <textarea type="text" class="form-control" id="Description" name="notice[description]" required></textarea>
+                    <div class="valid-feedback">Alright</div>
+                    <div class="invalid-feedback">Something's Missing</div>
+                </div>
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="author" name="notice[author]" required>
+                    <div class="valid-feedback">Alright</div>
+                    <div class="invalid-feedback">Something's Missing</div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success">Add Notice</button>
+                </div>
+            </form>
+            <div>
+                <a href="/notices" class="link-dark">Back</a>
+            </div>
+        </div>
+    </div>

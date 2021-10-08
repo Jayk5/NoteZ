@@ -1,0 +1,66 @@
+<% layout('/layouts/boilerplate') %>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <h3 class="card-header mb-3">
+                    <%= notice.title %>
+                </h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <%= notice.description %>
+                    </li>
+                    <li class="list-group-item text-muted">
+                        <%= notice.author %>
+                        -
+                        <%= notice.owner.username %> 
+                    </li>
+                </ul>
+                <% if(currentUser && notice.owner.equals(currentUser)) { %> 
+                <div class="card-body">
+                    <a class="btn card-link btn-primary" href="/notices/<%= notice._id %>/edit ">Edit Notice</a>
+                    <form class="d-inline" action="/notices/<%= notice._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                <% } %> 
+                <div class="card-footer text-muted">
+                    <%= new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit', hour : 'numeric', minute : '2-digit', second : '2-digit'}).format(notice.createdAt) %> 
+                </div>
+               
+            </div>
+            <div>
+                <br>
+                <a class="link-dark" href="/notices">Back</a>
+            </div>
+            <hr>
+            <% if(currentUser) { %> 
+            <h4>Leave a Comment</h4>
+            <form class="validated-form" action="/notices/<%=notice._id%>/comments" method="POST" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="body">Comment</label>
+                    <textarea class="form-control" name="comment[body]" id="body" cols="30" rows="" required></textarea>
+                    <div class="valid-feedback">Looks good</div>
+                </div>
+                <button class="btn btn-success mb-5">Submit</button>
+            </form>
+            <% } %> 
+            <h4>Comments</h4>
+            <% for(let comment of notice.comments) { %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <%= comment.body %>
+                    </div>
+                    <h6 class="card-footer text-muted mb-0">
+                        By - <%= comment.owner.username %> 
+                    </h6>
+                    <% if(currentUser && comment.owner.equals(currentUser._id)) { %>
+                        <div class="card-body">
+                        <form action="/notices/<%= notice._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                            <button class="btn-sm btn btn-danger my-0">Delete</button>
+                        </form>
+                        </div>
+                    <% } %> 
+                </div>
+            <% } %>
+        </div>
+    </div>
