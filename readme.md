@@ -13,5 +13,7 @@ npm install
 The following command will host the app on localhost:3000
 
 ```bash
-node app.js
+npm start
 ```
+
+[Live demo here](https://nameless-harbor-59912.herokuapp.com/)

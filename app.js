@@ -45,7 +45,7 @@ db.once('open', function () {
 // })
 
 const sessionCfg = {
-    secret: process.env.SESSIONSECRET,
+    secret: process.env.SESSIONSECRET || 'lmaoded',
     resave: false,
     saveUninitialized: true,
     cookie: {
