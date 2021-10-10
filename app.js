@@ -21,6 +21,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+mongoose.connect(dburl, {
+    useNewURLParser: true,
+    useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log("Database Connected");
+});
+
 // dburl = 'mongodb://localhost:27017/AppDB';
 
 // const store1 = new MongoDBStore({
@@ -62,16 +73,6 @@ app.use((req, res, next) => {
     next();
 })
 
-mongoose.connect(dburl, {
-    useNewURLParser: true,
-    useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    console.log("Database Connected");
-});
 
 const notices = require('./routes/notices');
 app.use('/notices', notices);
@@ -92,11 +93,11 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = 'Something went wrong' } = err;
     if (!err.message) err.message = 'Something went wrong';
-    res.status(statusCode).render('error', { err });
+    // res.status(statusCode).render('error', { err });
     // gives entire stack trace of error - can be useful
-    // res.status(statusCode);
-    // req.flash('error', err.message);
-    // res.redirect('/notices');
+    res.status(statusCode);
+    req.flash('error', err.message);
+    res.redirect('/notices');
 })
 
 const port = process.env.PORT || 3000
