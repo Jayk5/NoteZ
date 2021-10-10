@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -9,7 +10,10 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const User = require('./models/user')
+const User = require('./models/user');
+// const MongoDBStore = require('connect-mongo').default;
+let dburl = process.env.DB_URL || 'mongodb://localhost:27017/AppDB';
+
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -17,8 +21,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+// dburl = 'mongodb://localhost:27017/AppDB';
+
+// const store1 = new MongoDBStore({
+//     url: dburl,
+//     secret: 'sikret',
+//     touchAfter: 24 * 60 * 60
+// });
+
+// store.on('error', function (e) {
+//     console.log('Session Store error', e)
+// })
+
 const sessionCfg = {
-    secret: 'sikret',
+    secret: process.env.SESSIONSECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -46,7 +62,7 @@ app.use((req, res, next) => {
     next();
 })
 
-mongoose.connect('mongodb://localhost:27017/AppDB', {
+mongoose.connect(dburl, {
     useNewURLParser: true,
     useUnifiedTopology: true,
 });
@@ -62,6 +78,7 @@ app.use('/notices', notices);
 const comments = require('./routes/comments');
 app.use('/notices/:id/comments', comments);
 const userRoutes = require('./routes/users');
+const MongoStore = require('connect-mongo');
 app.use('/', userRoutes);
 
 app.get('/', (req, res) => {
