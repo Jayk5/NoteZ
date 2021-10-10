@@ -92,11 +92,11 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = 'Something went wrong' } = err;
     if (!err.message) err.message = 'Something went wrong';
-    // res.status(statusCode).render('error', { err });
+    res.status(statusCode).render('error', { err });
     // gives entire stack trace of error - can be useful
-    res.status(statusCode);
-    req.flash('error', err.message);
-    res.redirect('/notices');
+    // res.status(statusCode);
+    // req.flash('error', err.message);
+    // res.redirect('/notices');
 })
 
 const port = process.env.PORT || 3000
