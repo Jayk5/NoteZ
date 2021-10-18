@@ -11,7 +11,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="Description" class="form-label">Description</label>
-                    <textarea type="text" class="form-control" id="Description" name="notice[description]" value="<%=notice.description %>" required> </textarea>
+                    <textarea type="text" class="form-control" id="Description" name="notice[description]" required><%= notice.description %> 
+                    </textarea>
                     <div class="valid-feedback">Alright</div>
                     <div class="invalid-feedback">Something's Missing</div>
                 </div>
